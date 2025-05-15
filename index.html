@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Globalny Klikacz</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #000;
+      color: #0f0;
+    }
+    button {
+      font-size: 32px;
+      padding: 20px 50px;
+      background-color: #0f0;
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    #counter {
+      font-size: 60px;
+      margin: 30px 0;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-database-compat.js"></script>
+</head>
+<body>
+  <h1>Globalny Licznik Kliknięć</h1>
+  <div id="counter">0</div>
+  <button onclick="klik()">KLIK!</button>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCf0pzzI0EozLFONqj8XYyPSrW-OOOCFD8",
+      authDomain: "klikacz-b0c39.firebaseapp.com",
+      databaseURL: "https://klikacz-b0c39-default-rtdb.firebaseio.com",
+      projectId: "klikacz-b0c39",
+      storageBucket: "klikacz-b0c39.firebasestorage.app",
+      messagingSenderId: "325097384827",
+      appId: "1:325097384827:web:ac5805ebde13a1ff6febde",
+      measurementId: "G-G7GM5DSXTF"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const counterRef = db.ref('licznik');
+
+    function klik() {
+      counterRef.transaction(count => (count || 0) + 1);
+    }
+
+    counterRef.on('value', snapshot => {
+      document.getElementById('counter').innerText = snapshot.val() || 0;
+    });
+  </script>
+</body>
+</html>
